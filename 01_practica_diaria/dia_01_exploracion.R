@@ -45,3 +45,25 @@ summary(iris)
 data("mtcars")
 glimpse(mtcars)
 summary(mtcars)
+
+
+
+
+
+
+# ------------------------------------------------------------------------------
+# EXTRA DÍA 1: PREGUNTAS RÁPIDAS
+# ------------------------------------------------------------------------------
+
+# ¿Cuántas filas y columnas tiene exactamente?
+dim(iris)
+
+# ¿De qué tipo es la columna 'Species'? (Verás que es 'factor', es decir, categórica)
+class(iris$Species)
+
+# ¿Cuáles son los nombres exactos de las columnas?
+names(iris)
+
+# Muestra solo la columna 'Petal.Length' como un vector
+iris$Petal.Length
+iris$Petal.Width
