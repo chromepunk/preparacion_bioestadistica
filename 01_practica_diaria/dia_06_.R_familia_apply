@@ -1,0 +1,123 @@
+# ==============================================================================
+# Master en Bioinformática / Ciencia de Datos
+# Práctica Diaria - Día 6: La Familia apply en R (Evitando bucles 'for')
+# Autor: chromepunk
+# Objetivo: Dominar apply(), lapply() y sapply() con datos ómicos y clínicos
+# ==============================================================================
+
+# ==============================================================================
+# 1. EXPLICACIÓN Y EJEMPLOS DE REFERENCIA
+# ==============================================================================
+
+# Creemos una matriz de expresión de juguete para los ejemplos
+set.seed(123)
+matriz_exp <- matrix(rnorm(12, mean = 8, sd = 2), nrow = 4, ncol = 3)
+rownames(matriz_exp) <- c("Gene_A", "Gene_B", "Gene_C", "Gene_D")
+colnames(matriz_exp) <- c("Paciente_1", "Paciente_2", "Paciente_3")
+
+# --- A. apply(X, MARGIN, FUN) ---
+# MARGIN = 1 significa aplicar la función por FILAS (ej. calcular algo por Gen)
+# MARGIN = 2 significa aplicar la función por COLUMNAS (ej. calcular algo por Paciente)
+
+medianas_genes <- apply(matriz_exp, 1, median)      # Mediana de cada fila (gen)
+sd_pacientes   <- apply(matriz_exp, 2, sd)          # Desviación estándar de cada columna (paciente)
+
+
+# --- B. lapply(X, FUN) y sapply(X, FUN) ---
+# Útiles para iterar sobre listas de vectores o columnas de un Data Frame.
+lista_ensayos <- list(
+  run_1 = c(1.2, 2.3, 1.1),
+  run_2 = c(0.9, 4.5, 3.2, 1.1, 2.0),
+  run_3 = c(2.1, 1.8)
+)
+
+# lapply() siempre devuelve una LISTA
+largos_lista <- lapply(lista_ensayos, length) # Devuelve una lista de longitudes
+
+# sapply() simplifica a un VECTOR numérico limpio si es posible
+largos_vector <- sapply(lista_ensayos, length) # Devuelve: run_1 = 3, run_2 = 5, run_3 = 2
+
+
+# ==============================================================================
+# 2. BLOQUE DE EJERCICIOS (Para resolver)
+# ==============================================================================
+
+# --- PREPARACIÓN DE LOS DATASETS DE TRABAJO ---
+# Ejecuta este bloque antes de empezar
+set.seed(100)
+matriz_compleja <- matrix(rnorm(20, mean = 5, sd = 1.5), nrow = 5, ncol = 4)
+rownames(matriz_compleja) <- paste0("Gene", 1:5)
+colnames(matriz_compleja) <- paste0("Muestra", 1:4)
+
+rutas_metabolicas <- list(
+  Apoptosis = c("Gene1", "Gene3"),
+  Ciclo_Celular = c("Gene2", "Gene4", "Gene5"),
+  Inmunidad = c("Gene1", "Gene2", "Gene4"),
+  Metabolismo_Lipidico = c("Gene3", "Gene5")
+)
+
+
+# --- EJERCICIO 1: Coeficiente de Variación por Gen (apply por filas) ---
+# El Coeficiente de Variación (CV) mide la variabilidad relativa y se calcula como: (sd / mean).
+# Es muy útil para identificar genes cuya expresión varía mucho entre pacientes.
+#   a) Utiliza apply() sobre 'matriz_compleja' para calcular el CV de cada GEN (fila).
+#      Pista: En el argumento 'FUN' de apply, escribe tu propia función anónima: function(x) { sd(x) / mean(x) }
+
+# TU SOLUCIÓN AQUÍ (a):
+
+
+
+
+# --- EJERCICIO 2: Conteo de Genes Sobreexpresados (apply por columnas) ---
+# Queremos saber cuántos genes están "activos" (expresión > 5.0) en cada muestra.
+#   a) Utiliza apply() por COLUMNAS sobre 'matriz_compleja'.
+#   b) En la función de apply, usa una función anónima que calcule cuántos elementos son mayores que 5.0. 
+#      Pista: sum(x > 5.0) cuenta cuántos TRUE hay en un vector lógico.
+
+# TU SOLUCIÓN AQUÍ (a):
+
+
+
+
+# --- EJERCICIO 3: Tamaño de las Rutas Metabólicas (lapply vs sapply) ---
+# Tienes la lista 'rutas_metabolicas' que contiene vectores con los nombres de los genes implicados.
+#   a) Usa lapply() para obtener la longitud (length) de cada ruta. Guarda el resultado en 'tam_lapply'.
+#   b) Usa sapply() para obtener el mismo cálculo. Guarda el resultado en 'tam_sapply'.
+#   c) Compara ambos resultados haciendo un print de su clase (class(tam_lapply) y class(tam_sapply)).
+
+# TU SOLUCIÓN AQUÍ (a, b y c):
+
+
+
+
+# --- EJERCICIO 4: Control de Calidad de Datos Clínicos con sapply ---
+# Tienes un data frame clínico con variables de distintos tipos. 
+# Recuerda que un Data Frame es técnicamente una lista de columnas, por lo que puedes aplicarle sapply().
+df_clinico <- data.frame(
+  id = c("P1", "P2", "P3"),
+  edad = c(45, 62, 38),
+  tratado = c(TRUE, FALSE, TRUE),
+  peso = c(72.5, 80.1, NA) # Contiene un valor NA
+)
+
+#   a) Utiliza sapply() sobre 'df_clinico' para saber el tipo de datos (class) de cada columna.
+#   b) Utiliza sapply() para comprobar si hay algún valor ausente (is.na) en cada columna. 
+#      Pista: Usa la función anyNA en el argumento FUN de sapply().
+
+# TU SOLUCIÓN AQUÍ (a y b):
+
+
+
+
+# --- EJERCICIO 5: Z-Score de Expresión Génica (apply avanzado con retorno de matriz) ---
+# El Z-score estandariza los datos para que tengan media 0 y desviación estándar 1. 
+# Se calcula como: (x - mean(x)) / sd(x).
+#   a) Utiliza apply() sobre 'matriz_compleja' por FILAS para calcular el Z-score de cada gen.
+#      Pista: Tu función anónima debe ser: function(x) { (x - mean(x)) / sd(x) }
+#   b) Guarda el resultado en 'matriz_z'.
+#   c) R rota las matrices resultantes de apply de forma automática. Ejecuta t(matriz_z) 
+#      (función de transposición) sobre tu resultado para devolver la matriz a su orientación original 
+#      (genes en filas, muestras en columnas).
+
+# TU SOLUCIÓN AQUÍ (a, b y c):
+
