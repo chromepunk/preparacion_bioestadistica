@@ -61,10 +61,16 @@ rutas_metabolicas <- list(
 # El Coeficiente de Variación (CV) mide la variabilidad relativa y se calcula como: (sd / mean).
 # Es muy útil para identificar genes cuya expresión varía mucho entre pacientes.
 #   a) Utiliza apply() sobre 'matriz_compleja' para calcular el CV de cada GEN (fila).
-#      Pista: En el argumento 'FUN' de apply, escribe tu propia función anónima: function(x) { sd(x) / mean(x) }
+#      Pista: En el argumento 'FUN' de apply, escribe tu propia función anónima: 
+# function(x) { sd(x) / mean(x) }
 
 # TU SOLUCIÓN AQUÍ (a):
+#a
+sol1 <- apply(matriz_compleja, MARGIN = 1, FUN = function(x){
+  sd(x) / mean(x)
+})
 
+sol1
 
 
 
@@ -75,8 +81,13 @@ rutas_metabolicas <- list(
 #      Pista: sum(x > 5.0) cuenta cuántos TRUE hay en un vector lógico.
 
 # TU SOLUCIÓN AQUÍ (a):
+#a
 
+sol2 <- apply(matriz_compleja, MARGIN = 2, FUN = function(x){
+  sum(x > 5.0)
+})
 
+sol2
 
 
 # --- EJERCICIO 3: Tamaño de las Rutas Metabólicas (lapply vs sapply) ---
@@ -86,8 +97,17 @@ rutas_metabolicas <- list(
 #   c) Compara ambos resultados haciendo un print de su clase (class(tam_lapply) y class(tam_sapply)).
 
 # TU SOLUCIÓN AQUÍ (a, b y c):
+#a
+tam_lapply <- lapply(rutas_metabolicas, length)
+tam_lapply
 
+#b
+tam_sapply <- sapply(rutas_metabolicas, length)
+tam_sapply
 
+#c
+print(class(tam_lapply))
+print(class(tam_sapply))
 
 
 # --- EJERCICIO 4: Control de Calidad de Datos Clínicos con sapply ---
@@ -105,9 +125,13 @@ df_clinico <- data.frame(
 #      Pista: Usa la función anyNA en el argumento FUN de sapply().
 
 # TU SOLUCIÓN AQUÍ (a y b):
+#a
+sapply(df_clinico, function(x){
+  class(x)
+})
 
-
-
+#b
+sapply(df_clinico, anyNA)
 
 # --- EJERCICIO 5: Z-Score de Expresión Génica (apply avanzado con retorno de matriz) ---
 # El Z-score estandariza los datos para que tengan media 0 y desviación estándar 1. 
@@ -120,4 +144,11 @@ df_clinico <- data.frame(
 #      (genes en filas, muestras en columnas).
 
 # TU SOLUCIÓN AQUÍ (a, b y c):
+#a y b
+matriz_z <- apply(matriz_compleja, MARGIN = 1, function(x){
+  ((x - mean(x)) / sd(x))
+})
 
+
+#c
+t(matriz_z)
