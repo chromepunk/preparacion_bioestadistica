@@ -73,7 +73,7 @@ genes_panel <- c("ENSG01", "ENSG05", "ENSG09") # Nota: ENSG09 no está en la tab
 #      a los genes que pertenezcan a tu 'genes_panel'.
 
 # TU SOLUCIÓN AQUÍ (a):
-datos_genes$gene_id %in% genes_panel
+datos_genes[datos_genes$gene_id %in% genes_panel,]
 
 
 # --- EJERCICIO 2: Evitando la Trampa de los NAs (which) ---
@@ -101,8 +101,9 @@ resultados
 #      'gene_id' y 'log2FC' (Pista: investiga el argumento 'select' dentro de ?subset).
 
 # TU SOLUCIÓN AQUÍ (a y b):
-#a
-resultados <- subset(datos_genes$gene_id, datos_genes$log2FC > 1.0)
+#a, obtenemos filas que queremos (tambien columnas) de un dataframe, no hace falta
+# poner todo el rato el DF, ya lo sabe datos_genes$log2FC mejor log2FC
+resultados <- subset(datos_genes, log2FC > 1.0 & ruta_metabolica == "Apoptosis")
 resultados
 
 #b
@@ -135,4 +136,10 @@ print(datos_genes)
 #   c) Usa ese vector 'indices_sub' para extraer esas filas completas de la tabla original.
 
 # TU SOLUCIÓN AQUÍ (a, b y c):
+#a y b
+indices_sub <- which(datos_genes$log2FC < 0)
+
+#c
+datos_genes[indices_sub,]
+
 
